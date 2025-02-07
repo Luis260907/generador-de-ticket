@@ -159,7 +159,7 @@
                 document.getElementById('orderNumber').textContent = orderNumber;
 
                 // Generar la URL con los datos del ticket (esto será el destino del QR)
-                const url = `https://Luis260907.github.io/generador-de-ticket/detalles.html?name=${encodeURIComponent(name)}&course=${encodeURIComponent(course)}&order=${orderNumber}`;
+                const url = `https://Luis260907.github.io/generador-de-ticket/detalle_ticket.html?name=${encodeURIComponent(name)}&course=${encodeURIComponent(course)}&order=${orderNumber}`;
 
                 // Generar el código QR con la URL
                 $('#qrcode').empty().qrcode(url);
