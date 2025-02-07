@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Ticket</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Color de fondo suave */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        #ticket {
+            background-color: #ffffff; /* Fondo blanco para el ticket */
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #00bfff; /* Borde azul claro */
+            border-radius: 10px;
+            display: none;
+            width: 300px;
+            text-align: center;
+        }
+
+        #ticket h1 {
+            color: #00bfff; /* Título en azul claro */
+        }
+
+        #ticket p {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #333; /* Color de texto oscuro */
+        }
+
+        #ticket #qrcode {
+            margin: 20px 0;
+        }
+
+        #inputForm {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #ffffff; /* Fondo blanco para el formulario */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        #inputForm input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd; /* Borde gris */
+            border-radius: 5px;
+            background-color: #f9f9f9; /* Fondo claro para los campos */
+        }
+
+        #inputForm button {
+            width: 100%;
+            padding: 10px;
+            background-color: #00bfff; /* Botón azul claro */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #inputForm button:hover {
+            background-color: #008b8b; /* Botón oscuro cuando pasa el mouse */
+        }
+
+        /* Estilo para el botón de imprimir */
+        #print {
+            width: 100%;
+            padding: 10px;
+            background-color: #00bfff; /* Color verde para el botón de imprimir */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        #print:hover {
+            background-color: #00bfff; /* Cambio de color cuando pasa el mouse */
+        }
+
+        /* Media Query para cuando se imprime */
+        @media print {
+            /* Ocultar el formulario al imprimir */
+            #inputForm {
+                display: none;
+            }
+
+            /* Asegurarse de que el ticket se muestre centrado cuando se imprima */
+            #ticket {
+                display: block;
+                width: 300px; /* Ancho del ticket */
+                margin: 0 auto; /* Centra el ticket en la página */
+            }
+
+            /* Asegurarse de que el cuerpo de la página de impresión se ajuste */
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Opcional: También puedes quitar el botón de imprimir en la vista de impresión */
+            #print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="inputForm">
+        <h2>Generar Ticket</h2>
+        <input type="text" id="userName" placeholder="Tu Nombre" required>
+        <input type="text" id="userCourse" placeholder="Tu Curso" required>
+        <button id="generate">Generar Ticket</button>
+    </div>
+
+    <div id="ticket">
+        <h1>Ticket de Entrada</h1>
+        <p>Nombre: <span id="name"></span></p>
+        <p>Curso: <span id="course"></span></p>
+        <p>Número de Orden: <span id="orderNumber"></span></p>
+        <div id="qrcode"></div>
+        <button id="print">Imprimir Ticket</button>
+    </div>
+
+    <script>
+        let currentOrderNumber = 1; // Inicializamos el contador de números de orden.
+
+        document.getElementById('generate').addEventListener('click', () => {
+            const name = document.getElementById('userName').value;
+            const course = document.getElementById('userCourse').value;
+
+            if (name && course) {
+                // Usamos el contador para generar el número de orden secuencial
+                const orderNumber = currentOrderNumber++;
+
+                // Mostramos la información en el ticket
+                document.getElementById('name').textContent = name;
+                document.getElementById('course').textContent = course;
+                document.getElementById('orderNumber').textContent = orderNumber;
+
+                // Generar la URL con los datos del ticket (esto será el destino del QR)
+                const url = `https://Luis260907.github.io/generador-de-ticket/detalle_ticket.html?name=${encodeURIComponent(name)}&course=${encodeURIComponent(course)}&order=${orderNumber}`;
+
+                // Generar el código QR con la URL
+                $('#qrcode').empty().qrcode(url);
+
+                // Mostrar el ticket debajo del formulario
+                document.getElementById('ticket').style.display = 'block';
+            } else {
+                alert("Por favor, completa ambos campos.");
+            }
+        });
+
+        document.getElementById('print').addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>

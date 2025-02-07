@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Ticket</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #444;
+            font-size: 18px;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        #ticketDetails {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Estilo de los botones */
+        button {
+            padding: 15px 30px;
+            background-color: #00bfff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #008b8b;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ticketDetails">
+        <h1>Detalles del Ticket</h1>
+        <p id="ticketDetailsText"></p>
+       
+    </div>
+
+    <script>
+        // Obtener los parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        const course = urlParams.get('course');
+        const orderNumber = urlParams.get('order'); // Ahora obtenemos el número de orden correctamente
+
+        // Mostrar los detalles del ticket
+        document.getElementById('ticketDetailsText').innerHTML = `Eres ${name} del curso ${course} y tu número de orden es ${orderNumber}. ¡Bienvenido!`;
+    </script>
+</body>
+</html>
